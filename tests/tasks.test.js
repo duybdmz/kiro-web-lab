@@ -1,5 +1,18 @@
 const request = require('supertest');
+
+// Use in-memory database for tests
+process.env.DB_PATH = ':memory:';
+
 const app = require('../src/index');
+const { resetDatabase, closeDatabase } = require('../src/database');
+
+beforeEach(() => {
+  resetDatabase();
+});
+
+afterAll(() => {
+  closeDatabase();
+});
 
 describe('Health Check', () => {
   test('GET / should return status ok', async () => {
