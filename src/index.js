@@ -18,7 +18,11 @@ app.get('/', (req, res) => {
 
 // Health endpoint
 app.get('/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  try {
+    res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  } catch (error) {
+    res.status(500).json({ status: 'error', message: 'Internal server error' });
+  }
 });
 
 // List tasks
@@ -62,7 +66,7 @@ app.delete('/api/tasks/:id', (req, res) => {
 
 if (require.main === module) {
   app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
   });
 }
 
