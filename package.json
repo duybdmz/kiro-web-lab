@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "node --watch src/index.js",
-    "test": "jest",
+    "test": "jest --runInBand",
     "lint": "eslint src/"
   },
   "keywords": [
@@ -16,7 +16,10 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "express": "^4.21.0"
+    "better-sqlite3": "^12.10.0",
+    "cors": "^2.8.6",
+    "express": "^4.21.0",
+    "express-rate-limit": "^8.5.2"
   },
   "devDependencies": {
     "jest": "^30.4.2",
