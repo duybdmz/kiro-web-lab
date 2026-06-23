@@ -16,6 +16,15 @@ app.get('/', (req, res) => {
   res.json({ status: 'ok', message: 'kiro-web-lab is running' });
 });
 
+// Health endpoint
+app.get('/health', (req, res) => {
+  try {
+    res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  } catch (error) {
+    res.status(500).json({ status: 'error', message: 'Internal server error' });
+  }
+});
+
 // List tasks
 app.get('/api/tasks', (req, res) => {
   res.json(tasks);
@@ -55,6 +64,10 @@ app.delete('/api/tasks/:id', (req, res) => {
   res.status(204).send();
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}
+
+module.exports = app;
