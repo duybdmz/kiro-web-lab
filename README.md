@@ -1,28 +1,28 @@
 # kiro-web-lab
 
-A simple Node.js REST API for experimenting with Kiro Web.
+Một REST API đơn giản bằng Node.js để thử nghiệm với Kiro Web.
 
-## Features
+## Tính năng
 
-- RESTful CRUD API for tasks
-- Input validation
-- Pagination support
-- Request logging
-- CORS configuration
-- Rate limiting (100 requests per 15 minutes)
-- Global error handling
-- Docker support
+- RESTful CRUD API cho quản lý task
+- Kiểm tra đầu vào (Input validation)
+- Hỗ trợ phân trang (Pagination)
+- Ghi log request
+- Cấu hình CORS
+- Giới hạn tốc độ truy cập (100 requests mỗi 15 phút)
+- Xử lý lỗi toàn cục
+- Hỗ trợ Docker
 
-## Getting Started
+## Bắt đầu
 
 ```bash
 npm install
 npm start
 ```
 
-Server runs at `http://localhost:3000`
+Server chạy tại `http://localhost:3000`
 
-## Running Tests
+## Chạy Tests
 
 ```bash
 npm test
@@ -37,24 +37,24 @@ docker run -p 3000:3000 kiro-web-lab
 
 ## API Endpoints
 
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | `/` | Health check |
-| GET | `/api/tasks` | List tasks (paginated) |
-| GET | `/api/tasks/:id` | Get a single task |
-| POST | `/api/tasks` | Create a task |
-| PUT | `/api/tasks/:id` | Update a task |
-| DELETE | `/api/tasks/:id` | Delete a task |
+| Phương thức | Đường dẫn | Mô tả |
+|-------------|-----------|--------|
+| GET | `/` | Kiểm tra trạng thái server |
+| GET | `/api/tasks` | Lấy danh sách task (có phân trang) |
+| GET | `/api/tasks/:id` | Lấy chi tiết một task |
+| POST | `/api/tasks` | Tạo task mới |
+| PUT | `/api/tasks/:id` | Cập nhật task theo ID |
+| DELETE | `/api/tasks/:id` | Xóa task theo ID |
 
-### Pagination
+### Phân trang
 
-`GET /api/tasks` supports query parameters:
-- `page` — Page number (default: 1)
-- `limit` — Items per page (default: 10, max: 100)
+`GET /api/tasks` hỗ trợ các query parameters:
+- `page` — Số trang (mặc định: 1)
+- `limit` — Số item mỗi trang (mặc định: 10, tối đa: 100)
 
-Example: `GET /api/tasks?page=2&limit=5`
+Ví dụ: `GET /api/tasks?page=2&limit=5`
 
-Response:
+Kết quả trả về:
 ```json
 {
   "data": [...],
@@ -67,30 +67,75 @@ Response:
 }
 ```
 
-### Input Validation
+### Kiểm tra đầu vào
 
-- `title` is required, must be a non-empty string (max 200 chars)
-- `completed` must be a boolean if provided
+- `title` là bắt buộc, phải là chuỗi không rỗng (tối đa 200 ký tự)
+- `completed` phải là boolean nếu được cung cấp
 
-### Error Responses
+### Phản hồi lỗi
 
-All errors return JSON:
+Tất cả lỗi đều trả về dạng JSON:
 ```json
-{ "error": "description of the error" }
+{ "error": "mô tả lỗi" }
 ```
 
-## Environment Variables
+## Biến môi trường
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `PORT` | `3000` | Server port |
-| `NODE_ENV` | — | Set to `production` to hide error details |
-| `CORS_ORIGIN` | `*` | Allowed CORS origin |
+| Biến | Mặc định | Mô tả |
+|------|----------|--------|
+| `PORT` | `3000` | Port của server |
+| `NODE_ENV` | — | Đặt `production` để ẩn chi tiết lỗi |
+| `CORS_ORIGIN` | `*` | Nguồn gốc CORS được phép |
 
-## Tech Stack
+## Công nghệ sử dụng
 
-- Node.js
-- Express
-- cors
-- express-rate-limit
-- Jest + Supertest (testing)
+- **Node.js** — Runtime JavaScript
+- **Express** — Framework web
+- **cors** — Xử lý Cross-Origin Resource Sharing
+- **express-rate-limit** — Giới hạn tốc độ truy cập
+- **Jest + Supertest** — Testing
+
+## Ví dụ sử dụng
+
+### Kiểm tra server
+
+```bash
+curl http://localhost:3000/
+```
+
+### Lấy danh sách task
+
+```bash
+curl http://localhost:3000/api/tasks
+```
+
+### Tạo task mới
+
+```bash
+curl -X POST http://localhost:3000/api/tasks \
+  -H "Content-Type: application/json" \
+  -d '{"title": "Task mới"}'
+```
+
+Kết quả:
+```json
+{ "id": 3, "title": "Task mới", "completed": false }
+```
+
+### Cập nhật task
+
+```bash
+curl -X PUT http://localhost:3000/api/tasks/1 \
+  -H "Content-Type: application/json" \
+  -d '{"completed": true}'
+```
+
+### Xóa task
+
+```bash
+curl -X DELETE http://localhost:3000/api/tasks/1
+```
+
+## License
+
+MIT
