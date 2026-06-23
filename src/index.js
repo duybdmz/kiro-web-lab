@@ -41,6 +41,15 @@ app.get('/', (req, res) => {
   res.json({ status: 'ok', message: 'kiro-web-lab is running' });
 });
 
+// Health endpoint
+app.get('/health', (req, res) => {
+  try {
+    res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  } catch (error) {
+    res.status(500).json({ status: 'error', message: 'Internal server error' });
+  }
+});
+
 // List tasks with pagination
 app.get('/api/tasks', (req, res) => {
   const db = getDatabase();
